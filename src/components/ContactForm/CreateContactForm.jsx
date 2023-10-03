@@ -9,14 +9,15 @@ import {
 } from './CreateContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContactSlice, getContacts } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/asyncRedax';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Enter your name'),
-  number: Yup.string()
+  phone: Yup.string()
     .matches(/^\+380\d{9}$/, 'Invalid phone number format (+380XXXXXXXXX)')
     .required('Enter a phone number'),
 });
@@ -25,12 +26,12 @@ export const CreateContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
 
-  const addContact = contact => {
+  const addContactPrev = contact => {
     if (checkDuplicate(contact)) {
       alert('the contact already exists');
       return;
     }
-    dispatch(addContactSlice(contact));
+    dispatch(addContact(contact));
   };
 
   function checkDuplicate(contact) {
@@ -43,11 +44,11 @@ export const CreateContactForm = () => {
     <Formik
       initialValues={{
         name: '',
-        number: '',
+        phone: '',
       }}
       validationSchema={SignupSchema}
       onSubmit={values => {
-        addContact(values);
+        addContactPrev(values);
       }}
     >
       <FormStyle>
@@ -56,9 +57,9 @@ export const CreateContactForm = () => {
         </label>
         <ErrorMess name="name" component="span" />
         <label>
-          Number <FieldInputStyle name="number" type="tel" />
+          Number <FieldInputStyle name="phone" type="tel" />
         </label>
-        <ErrorMess name="number" component="span" />
+        <ErrorMess name="phone" component="span" />
         <FieldSubmitStyle type="submit">Add Contact</FieldSubmitStyle>
       </FormStyle>
     </Formik>
