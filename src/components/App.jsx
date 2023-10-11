@@ -5,13 +5,13 @@ import { Filter } from './Filter/Filter';
 import { Container } from './App.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/asyncRedax';
-import { getError, getLoad } from 'redux/selectors';
+import { selectError, selectLoad } from 'redux/selectors';
 import BarLoader from 'react-spinners/BarLoader';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getLoad);
-  const error = useSelector(getError);
+  const isLoading = useSelector(selectLoad);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());

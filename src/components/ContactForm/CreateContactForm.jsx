@@ -9,7 +9,7 @@ import {
 } from './CreateContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { addContact } from 'redux/asyncRedax';
 
 const SignupSchema = Yup.object().shape({
@@ -24,7 +24,7 @@ const SignupSchema = Yup.object().shape({
 
 export const CreateContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const addContactPrev = contact => {
     if (checkDuplicate(contact)) {
